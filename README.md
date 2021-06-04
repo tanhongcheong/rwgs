@@ -1,2 +1,2 @@
 # rwgs
-[test](rwgs_script.gs)
+(doc/Step00.png)
