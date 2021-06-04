@@ -1,1 +1,86 @@
 
+<!doctype html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<html lang="en">
+
+	<head>
+		<title>Reading and writing to Google Sheet through web app</title>
+		
+		<style type="text/css">
+			img.resize
+			{
+				max-width:75%;
+				max-height:75%;
+			}
+		</style>
+		
+	</head>
+	
+	<body>
+		<p>Steps in Reading and writing to Google Sheet through web app.
+		<OL>
+			<LI>
+				<p>Create a new google spreadsheet.
+				<p>In this example, the headers are "Field1","Field2","Field3".
+				<p><img class="resize" src="Step00.png"/>
+			</LI>
+			<LI>
+				<p>Create a new script.
+				<p><img class="resize" src="Step01.png"/>
+			</LI>
+			<LI>
+				<p>Rename the script.
+				<p><img class="resize" src="Step02.png"/>
+			</LI>
+			<LI>
+				<p>Copy the contents of <a href="rwgs_script.gs">rwgs_script.gs</a> into script editor.
+				<p>Copy the sheet id and replace it in the script.
+				<p><img class="resize" src="Step03.png"/>
+			</LI>
+			<LI>
+				<p>Deploy the script as web app.
+				<p><img class="resize" src="Step04.png"/>
+				<p><img class="resize" src="Step05.png"/>
+				<p><img class="resize" src="Step06.png"/>
+			</LI>
+			<LI>
+				<p>Change access to "Anyone".
+				<p><img class="resize" src="Step07.png"/>
+			</LI>
+			<LI>
+				<p>Authorisze access
+				<p><img class="resize" src="Step08.png"/>
+			</LI>
+			<LI>
+				<p>Select your account.
+				<p><img class="resize" src="Step09.png"/>
+			</LI>
+			<LI>
+				<p>Allow accesss.
+				<p><img class="resize" src="Step10.png"/>
+				<p><img class="resize" src="Step11.png"/>
+				<p><img class="resize" src="Step12.png"/>
+			</LI>
+			<LI>
+				<p>Copy the web app url.
+				<p><img class="resize" src="Step13.png"/>
+			</LI>
+			<LI>
+				<p>Download <a href="test.html">test.html</a>
+				<p>Replace the url with the web app url in previous step.
+				<p>Replace the sheet name with sheet name of your google sheet.
+				<p><img class="resize" src="Step14.png"/>
+			</LI>
+			<LI>
+				<p>You can test the script.
+				<p><img class="resize" src="Step15.png"/>
+				<p><img class="resize" src="Step16.png"/>
+				<p><img class="resize" src="Step17.png"/>
+			</LI>
+		</OL>
+	</body>
+</html>
