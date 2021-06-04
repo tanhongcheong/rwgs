@@ -1,0 +1,165 @@
+<!doctype html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+</head>
+
+<html lang="en">
+
+	<head>
+		<title>Reading and writing to Google Sheet</title>
+	</head>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script>
+		
+	</script>
+	<body>
+		<p>Amend a row or insert a row at the end.
+		<form id="form1">
+			<p><label>Row:</label> 
+			<input id="row" name="row" type="number" value="-1"/>
+			A number less than 2 means insert at the end of the sheet
+			
+			<p><label>Field1:</label>
+			<input id="Field1" name="Field1"/>
+			<p><label>Field2:</label>
+			<input id="Field2" name="Field2"/>
+			<p><label>Field3:</label>
+			<input id="Field3" name="Field3"/>
+			<p><button type="submit">Submit</button>
+		</form>
+		<HR/>
+		<p><button type="button" onclick="readData()">Read sheet</button>
+		
+		
+		<div id="dataTable"/>
+		
+		<script>
+			// Variable to hold request
+			var request;
+			
+			//url of your app script
+			var url = "https://script.google.com/macros/s/AKfycbzFc6HZNn6mGms93qfNRX1vbGZZua4OLCfjDsFjb84rE3qjeVj1iEFT0DB730bQsDtF/exec";
+			
+			var sheetName = "Sheet1";
+			
+			//override default form submission
+			$("#form1").submit(function(e)
+			{
+				e.preventDefault(); // avoid to execute the actual submit of the form.
+				
+				// Abort any pending request
+				if (request)
+				{
+					request.abort();
+				}
+				
+				
+				var $form = $(this);
+				
+				console.log("sheet="+sheetName+"&"+$form.serialize());
+				request = $.ajax({
+					url: url,
+					type: "post",
+					data: "sheet="+sheetName+"&"+$form.serialize()
+				});
+
+				// Callback handler that will be called on success
+				request.done(function (response, textStatus, jqXHR)
+				{
+					if (response["result"]=="success")
+					{
+						console.log(response);
+						alert("You had successfully submitted.");
+					}
+					else
+					{
+						alert("The following error occurred: "+response["error"]["message"]+" Please try again.");
+					}
+				});
+
+				// Callback handler that will be called on failure
+				request.fail(function (jqXHR, textStatus, errorThrown)
+				{
+					// Log the error to the console
+					console.error(
+						"The following error occurred: "+
+						textStatus, errorThrown
+					);
+					alert("The following error occurred: "+textStatus+" Please try again.");
+					
+				});
+			});
+			
+			function readData()
+			{
+				console.log("reading data");
+				
+				// Abort any pending request
+				if (request)
+				{
+					request.abort();
+				}
+				
+				request = $.ajax({
+						url: url,
+						type: "get",
+						data: "sheet="+sheetName+"&"+"row=1&col=1&noOfRows=-1&noOfCols=-1"
+					});
+
+				// Callback handler that will be called on success
+				request.done(function (response, textStatus, jqXHR)
+				{
+					console.log("response");
+					console.log(response);
+					
+					if (response["result"]=="success")
+					{
+						var data = response["data"];
+						console.log(data);
+						var table = document.getElementById("dataTable");				
+						var innerHTML = "<TABLE border='1'>";
+						//first row should be header
+						{
+							innerHTML = innerHTML + "<TR>";
+							for(var c=0;c<data[0].length;c++)
+							{
+								innerHTML = innerHTML + "<TH>"+data[0][c]+"</TH>";
+							}
+							innerHTML = innerHTML + "</TR>";
+						}
+						for(var r=1;r<data.length;r++)
+						{
+							innerHTML = innerHTML + "<TR>";
+							for(var c=0;c<data[r].length;c++)
+							{
+								innerHTML = innerHTML + "<TD>"+data[r][c]+"</TD>";
+							}
+							innerHTML = innerHTML + "</TR>";
+						}
+				
+						innerHTML = innerHTML + "</TABLE>";
+						table.innerHTML = innerHTML;
+					}
+					else
+					{
+						alert("The following error occurred: "+response["error"]["message"]+" Please try again.");
+					}
+				});
+				
+				// Callback handler that will be called on failure
+				request.fail(function (jqXHR, textStatus, errorThrown)
+				{
+					// Log the error to the console
+					console.error(
+						"The following error occurred: "+
+						textStatus, errorThrown
+					);
+					alert("The following error occurred: "+textStatus+" Please try again.");
+				});
+			}
+		</script>
+	</body>
+</html>
